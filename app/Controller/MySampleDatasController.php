@@ -33,8 +33,59 @@ class MySampleDatasController extends AppController {
     } else {
       $data = null;
     }
+    //echo '<pre>';
+    //var_dump($this->data);
+    //var_dump($this->request);
+    //echo '</pre>';
     $this->set('data',$data);
 
   }
 
+  public function add() {
+    $this->layout = 'sample';
+    $this->set("header_for_layout",
+      "Sample Application");
+    $this->set("footer_for_layout",
+      "copyright by aaa.");
+
+    if ($this->request->is('post')) {
+      $this->MySampleData->save($this->request->data);
+    }
+  }
+
+  public function edit($id) {
+    $this->layout = 'sample';
+    $this->set("header_for_layout",
+      "Sample Application");
+    $this->set("footer_for_layout",
+      "copyright by aaa.");
+
+    if ($this->request->is('post')|| $this->request->is('put')) {
+      $this->MySampleData->save($this->request->data);
+      $this->redirect(array('action' => 'index'));
+    } else {
+      $this->request->data = $this->MySampleData->read(null, $id);
+    }
+
+    //echo '<pre>';
+    //var_dump($this->data);
+    //var_dump($this->request);
+    //echo '</pre>';
+  }
+
+  public function del($id) {
+    $this->layout = 'sample';
+    $this->set("header_for_layout",
+      "Sample Application");
+    $this->set("footer_for_layout",
+      "copyright by aaa.");
+
+    $this->MySampleData->id = $id;
+    if ($this->request->is('post')|| $this->request->is('put')) {
+      $this->MySampleData->delete($this->request->data('MySampleData.id'));
+      $this->redirect(array('action' => 'index'));
+    } else {
+      $this->request->data = $this->MySampleData->read(null, $id);
+    }
+  }
 }
